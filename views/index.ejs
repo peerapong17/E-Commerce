@@ -1,0 +1,35 @@
+<%- include('header'); -%>
+<div class="row mt-5">
+  <%- include('listGroup'); -%>
+  <div class="col-10">
+    <div class="row">
+      <% foundAppliances.map(foundAppliance =>{ %>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100">
+            <a href="/product/<%= foundAppliance._id %>"
+              ><img class="card-img-top" src="<%= foundAppliance.image %>" alt="<%= foundAppliance.category %>"
+            height="250" width="400"/></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="/product/<%= foundAppliance._id %>"><%= foundAppliance.name %> </a>
+              </h4>
+              <h5>$ <%= formatMoney(foundAppliance.price) %></h5>
+              <p class="card-text">
+                <%= foundAppliance.description %>
+              </p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted"
+                >&#9733; &#9733; &#9733; &#9733; &#9734;</small
+              >
+            </div>
+            <form action="/cart" method="POST">
+              <button class="btn btn-success" name="product_id" type="submit" value="<%= foundAppliance._id %>">Buy Product</button>
+            </form>
+          </div>
+        </div>
+      <% }) %> 
+    </div>
+  </div>
+</div>
+<%- include('footer'); -%> 

@@ -1,0 +1,50 @@
+<%- include('header'); -%>
+<% if(displayCart.items.length > 0){ %>
+  <table class="table thread-dark">
+    <thead>
+      <tr>
+        <th scope="col">Index</th>
+        <th scope="col">Name</th>
+        <th scope="col">Category</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Price</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% displayCart.items.map((item, index)=>{ %>
+      <tr>
+        <th scope="row"><%= index+1 %></th>
+        <td><a href="/product/<%= item.id %> "><%= item.name %></a></td>
+        <td><%= item.category %></td>
+        <td><%= formatMoney(item.price) %></td>
+        <td><%= item.qty %></td>
+        <td><%= formatMoney((item.qty * item.price)) %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-end">
+    <h1>Total : <%= displayCart.total %></h1>
+  </div>
+  <form class="form-group" action="/payment" method="POST">
+    <script
+    src="http://checkout.stripe.com/checkout.js"
+    class="stripe-button"
+    data-name="Moo Shop"
+    data-key="pk_test_51Ix7IvKb57Y9FnDqwS3AQ7w4pMspyfclbl3xx14LQ4ZE9CDtwVztjULoOKcLA44PtbaVZ1OrQDn8FIYZzN7J6KrU00Jq5Gh73d"
+    data-description="Moo Shop"
+    data-amount="<%= displayCart.total * 100 %>"
+    data-current="USD"
+    >
+  </script>
+  <input type="hidden" name="amount" value="<%= displayCart.total * 100 %>">
+  </form>
+<% } else { %>
+    <div class="alert alert-danger mt-2">
+      <h1>No Product Bought!!</h1>
+    </div>
+<% } %> 
+
+<br /><br />
+<%- include('footer'); -%>
